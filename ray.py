@@ -9,10 +9,10 @@ class Raytracer (object):
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.colorN = color(0, 0, 0) 
-        self.colorD = color(1, 1, 1)
+        self.colorN = color(190, 236, 247) 
+        self.colorD = color(190, 236, 247)
         self.scene = []
-        self.density = 1
+        self.density = 0.9
         self.clear()
 
     def point(self, x, y, c = None):
@@ -56,6 +56,12 @@ class Raytracer (object):
 
         f.close()
 
+    def cambioN(self, color): 
+        self.colorN = color
+
+    def cambioD(self, color): 
+        self.colorD = color
+
     def clear(self):
         self.framebuffer= [
             [self.colorN for x in range(self.width)]
@@ -85,15 +91,10 @@ class Raytracer (object):
 
     def cast_ray (self, origin, direction):
 
-        s = Sphere(V3(-3, 0, -16), 2)
+        for s in self.scene:
+            if s.ray_intersect(origin, direction):
+                return s.color
+        
+        return self.colorD
 
-        if s.ray_intersect(origin, direction):
-            return color(255,0,0)
-        else:
-            return self.colorD
-
-r = Raytracer(800,600)
-r.scene(100,100)
-r.render()
-r.write()
 
