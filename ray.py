@@ -1,18 +1,22 @@
+from turtle import position
 from WriteUtilities import *
 from math import *
 from color import *
 from vector import *
 from sphere import *
+from material import *
+from light import *
 import random
 
 class Raytracer (object):
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.colorN = color(190, 236, 247) 
-        self.colorD = color(190, 236, 247)
+        self.colorN = color(0, 0, 0) 
+        self.colorD = color(0, 150, 150)
         self.scene = []
-        self.density = 0.9
+        self.light = Light(V3(0, 0, 0), 1) 
+        self.density = 1
         self.clear()
 
     def point(self, x, y, c = None):
@@ -90,11 +94,48 @@ class Raytracer (object):
                     self.point(x, y, c)
 
     def cast_ray (self, origin, direction):
+        material, intersect = self.scene_intersect(origin, direction)
+
+        if material is None:
+            return self.colorD
+
+        light_dir = (self.light.position - intersect.point).norm()
+        intensity = light_dir @ intersect.normal
+
+        if material:
+            diffuse = color(
+                int(material.diffuse[2] * intensity),
+                int(material.diffuse[1] * intensity),
+                int(material.diffuse[0] * intensity)
+            )
+            return diffuse
+        else:
+            return self.colorD
+
+    def scene_intersect (self, origin, direction):
+        zbuffer = 999999
+        material = None
+        intersect = None
 
         for s in self.scene:
-            if s.ray_intersect(origin, direction):
-                return s.color
-        
-        return self.colorD
+            object_intersect = s.ray_intersect(origin, direction)
+            if object_intersect:
+                if object_intersect.distance < zbuffer:
+                    zbuffer = object_intersect.distance
+                    material = s.material
+                    intersect = object_intersect
+
+        return material, intersect
 
 
+red = Material(diffuse=color(255, 0, 0))
+white = Material(diffuse=color(255, 255, 255))
+
+r = Raytracer(800, 600)
+r.light = Light(V3(0, 0, 0), 1)
+r.scene = [
+    Sphere(V3(-3, 0, -16), 2.5, red),
+    Sphere(V3(1, 0, -10), 2.5, white)
+]
+r.render()
+r.write('render.bmp')
