@@ -12,11 +12,11 @@ class Raytracer (object):
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.colorN = color(0, 0, 0) 
-        self.colorD = color(0, 150, 150)
+        self.colorN = color(0, 0, 0).to_bytes()
+        self.colorD = color(0, 0, 0).to_bytes()
         self.scene = []
-        self.light = Light(V3(0, 0, 0), 1) 
-        self.density = 1
+        self.light = Light(V3(0, 0, 0), 1, color(255, 255, 255))
+        self.density = 0.3
         self.clear()
 
     def point(self, x, y, c = None):
@@ -64,7 +64,7 @@ class Raytracer (object):
         self.colorN = color
 
     def cambioD(self, color): 
-        self.colorD = color
+        self.colorD = color.to_bytes()
 
     def clear(self):
         self.framebuffer= [
@@ -73,7 +73,7 @@ class Raytracer (object):
         ]
 
     def Color (self, r, g, b):
-        self.colorD = color(r, g, b)
+        self.colorD = color(r, g, b).to_bytes()
 
     def render (self):
         fov = int(pi/2)
@@ -100,17 +100,17 @@ class Raytracer (object):
             return self.colorD
 
         light_dir = (self.light.position - intersect.point).norm()
-        intensity = light_dir @ intersect.normal
+        deffuse_intensity = light_dir @ intersect.normal
+        
+        light_reflection = self.reflect(light_dir, intersect.normal)
+        reflection_intensity = max(0, (light_reflection @ direction))
+        specular_intensity =  reflection_intensity ** material.spec
 
-        if material:
-            diffuse = color(
-                int(material.diffuse[2] * intensity),
-                int(material.diffuse[1] * intensity),
-                int(material.diffuse[0] * intensity)
-            )
-            return diffuse
-        else:
-            return self.colorD
+        specular = self.light.c * specular_intensity * material.albedo[1] * self.light.intensity
+
+        color = material.diffuse * deffuse_intensity * material.albedo[0] 
+        color = color + specular 
+        return color.to_bytes()
 
     def scene_intersect (self, origin, direction):
         zbuffer = 999999
@@ -127,15 +127,19 @@ class Raytracer (object):
 
         return material, intersect
 
+    def reflect(self, I, N):
+        return (I - N * 2 * (N @ I)).norm()
 
-red = Material(diffuse=color(255, 0, 0))
-white = Material(diffuse=color(255, 255, 255))
+
+
+rubber = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1], spec=10)
+ivory = Material(diffuse=color(100, 100, 80), albedo=[0.6, 0.3], spec=50)
 
 r = Raytracer(800, 600)
-r.light = Light(V3(0, 0, 0), 1)
+r.light = Light(V3(0, 0, 0), 1.5, color(255, 255, 255))
 r.scene = [
-    Sphere(V3(-3, 0, -16), 2.5, red),
-    Sphere(V3(1, 0, -10), 2.5, white)
+    Sphere(V3(-3, 0, -16), 2.5, rubber),
+    Sphere(V3(1, 0, -10), 2.5, ivory)
 ]
 r.render()
 r.write('render.bmp')

@@ -1,15 +1,49 @@
-def color(r,g,b):
-        if(r < 0):
-                r = 0
-        if (r > 255):
-                r = 255
-        if(g < 0):
-                g = 0
-        if (g > 255):
-                g = 255
-        if(b < 0):
-                b = 0
-        if (b > 255):
-                b = 255
+class color(object):
+    def __init__(self, r, g, b):
+        self.r = r
+        self.g = g
+        self.b = b
 
-        return bytes([b,g,r])
+    # Mult color con color y con float
+    def __mul__(self, other):
+        r = self.r
+        g = self.g
+        b = self.b
+        if type(other) == int or type(other) == float:
+            b = self.b * other
+            g = self.g * other
+            r = self.r * other
+        else:
+            b *= other.b
+            g *= other.g
+            r *= other.r
+        
+        r = int(min(255, max(r, 0)))
+        g = int(min(255, max(g, 0)))
+        b = int(min(255, max(b, 0)))
+        return color(r, g, b)
+
+    def __add__(self, other):
+        r = self.r
+        g = self.g
+        b = self.b
+        if type(other) == int or type(other) == float:
+            b = self.b + other
+            g = self.g + other
+            r = self.r + other
+        else:
+            b += other.b
+            g += other.g
+            r += other.r
+        
+        r = int(min(255, max(r, 0)))
+        g = int(min(255, max(g, 0)))
+        b = int(min(255, max(b, 0)))
+        return color(r, g, b)
+        
+
+    def to_bytes(self):
+        return bytes([self.b, self.g, self.r])
+
+    def __repr__(self):
+        return "color(%s, %s, %s" % (self.r, self.g, self.b)
