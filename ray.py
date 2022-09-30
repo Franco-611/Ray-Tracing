@@ -16,7 +16,7 @@ class Raytracer (object):
         self.colorD = color(0, 0, 0).to_bytes()
         self.scene = []
         self.light = Light(V3(0, 0, 0), 1, color(255, 255, 255))
-        self.density = 0.3
+        self.density = 1
         self.clear()
 
     def point(self, x, y, c = None):
@@ -61,7 +61,7 @@ class Raytracer (object):
         f.close()
 
     def cambioN(self, color): 
-        self.colorN = color
+        self.colorN = color.to_bytes()
 
     def cambioD(self, color): 
         self.colorD = color.to_bytes()
