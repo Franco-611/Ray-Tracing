@@ -113,13 +113,22 @@ class Raytracer (object):
         reflected_color = color(0,0,0,)
         if material.albedo[2] > 0:
             reversed_direction = direction * -1
-            reflected_direction = self.reflect(reversed_direction, intersect.normal)
+            reflected_direction = self.reflect(direction, intersect.normal)
             reflected_bias = -0.5 if reflected_direction @ intersect.normal < 0 else 0.5
             reflected_orig = intersect.point + (intersect.normal * reflected_bias)
             reflected_color = self.cast_ray(reflected_orig, reflected_direction, recursion + 1)
+
+        refract_color = color(0,0,0,)
+        if material.albedo[3] > 0:
+            refract_direction = self.refract(direction, intersect.normal, material.refraction)
+            refract_bias = -0.5 if refract_direction @ intersect.normal < 0 else 0.5
+            refract_orig = intersect.point + (intersect.normal * refract_bias)
+            refract_color = self.cast_ray(refract_orig, refract_direction, recursion + 1)
             
 
         reflection = reflected_color * material.albedo[2]
+
+        refract = refract_color * material.albedo[3]
 
         deffuse_intensity = light_dir @ intersect.normal
         
@@ -139,7 +148,7 @@ class Raytracer (object):
         specular = self.light.c * specular_intensity * material.albedo[1] * self.light.intensity
 
         diffuse = material.diffuse * deffuse_intensity * material.albedo[0] * shadow_intensity
-        diffuse = diffuse + specular + reflection
+        diffuse = diffuse + specular + reflection + refract
 
     
         return diffuse
@@ -162,11 +171,32 @@ class Raytracer (object):
     def reflect(self, I, N):
         return (I - N * 2 * (N @ I)).norm()
 
+    def refract(self, I, N, roi):
+        etai = 1 #para el aire
+        etat = roi
+
+        cosi = (I @ N)* -1
+
+        if cosi < 0:
+            cosi *= -1
+            etai *= -1
+            etat *= -1
+            N *= -1
+        
+        eta = etai/etat
+        k = 1 - eta**2 * (1 - cosi**2)
+
+        if k < 0:
+            return V3(0,0,0)
+
+        cost = k ** 0.5
+        return ((I * eta) +  (N * (eta * cosi - cost))).norm() 
 
 
-rubber = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1,0], spec=10)
-ivory = Material(diffuse=color(100, 100, 80), albedo=[0.6, 0.3,0], spec=50)
-mirror = Material(diffuse=color(255,255, 255), albedo=[0, 1, 0.8], spec=1425)
+rubber = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1,0,0], spec=10)
+ivory = Material(diffuse=color(100, 100, 80), albedo=[0.6, 0.3,0,0], spec=50)
+mirror = Material(diffuse=color(255,255, 255), albedo=[0, 1, 0.8,0], spec=1425)
+glass = Material(diffuse=color(150,180, 200), albedo=[0, 0.5, 0.1, 0.8], spec=125, refraction=1.5)
 
 r = Raytracer(800, 600)
 
@@ -180,8 +210,8 @@ r.scene = [
 
 r.light = Light(V3(-20, 20, 20), 2, color(255, 255, 255))
 r.scene = [
-    Sphere(V3(0, -1.5, -12), 1.5, ivory),
-    #Sphere(V3(-2, -1, -12), 2, mirror),
+    Sphere(V3(0, -1.5, -10), 1.5, ivory),
+    Sphere(V3(0, 0, -5), 0.5, glass),
     Sphere(V3(1, 1, -8), 1.7, rubber),
     Sphere(V3(-2, 1, -10), 2, mirror),
 ]
