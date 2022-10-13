@@ -8,6 +8,7 @@ from vector import *
 from sphere import *
 from material import *
 from light import *
+from plane import *
 import random
 
 MAX_RECURCIO = 3
@@ -210,10 +211,11 @@ r.scene = [
 
 r.light = Light(V3(-20, 20, 20), 2, color(255, 255, 255))
 r.scene = [
+    Plane(V3(0, 2.2, -5), 2, 2, mirror),
     Sphere(V3(0, -1.5, -10), 1.5, ivory),
     Sphere(V3(0, 0, -5), 0.5, glass),
     Sphere(V3(1, 1, -8), 1.7, rubber),
-    Sphere(V3(-2, 1, -10), 2, mirror),
+    Sphere(V3(-2, 1, -10), 2, mirror)
 ]
 
 r.render()
