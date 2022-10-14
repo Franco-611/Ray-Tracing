@@ -1,14 +1,14 @@
-from turtle import position
-
-import scipy as sp
 from WriteUtilities import *
 from math import *
 from color import *
+from cubo import Cubo
 from vector import *
 from sphere import *
 from material import *
 from light import *
 from plane import *
+from mats import *
+from envmap import *
 import random
 
 MAX_RECURCIO = 3
@@ -22,6 +22,7 @@ class Raytracer (object):
         self.scene = []
         self.light = Light(V3(0, 0, 0), 1, color(255, 255, 255))
         self.density = 1
+        self.envmap = None
         self.clear()
 
     def point(self, x, y, c = None):
@@ -101,12 +102,12 @@ class Raytracer (object):
     def cast_ray (self, origin, direction, recursion = 0):
 
         if recursion >= MAX_RECURCIO:
-            return self.colorD
+            return self.get_background(direction)
 
         material, intersect = self.scene_intersect(origin, direction)
 
         if material is None:
-            return self.colorD
+            return self.get_background(direction)
 
         light_dir = (self.light.position - intersect.point).norm()
         
@@ -193,11 +194,11 @@ class Raytracer (object):
         cost = k ** 0.5
         return ((I * eta) +  (N * (eta * cosi - cost))).norm() 
 
-
-rubber = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1,0,0], spec=10)
-ivory = Material(diffuse=color(100, 100, 80), albedo=[0.6, 0.3,0,0], spec=50)
-mirror = Material(diffuse=color(255,255, 255), albedo=[0, 1, 0.8,0], spec=1425)
-glass = Material(diffuse=color(150,180, 200), albedo=[0, 0.5, 0.1, 0.8], spec=125, refraction=1.5)
+    def get_background(self,direction):
+        if self.envmap:
+            return self.envmap.get_color(direction)
+        else:
+            return self.colorD
 
 r = Raytracer(800, 600)
 
@@ -208,7 +209,7 @@ r.scene = [
     Sphere(V3(1, 0, -10), 2.5, ivory)
 ]
 '''
-
+r.envmap = Envmap('parque.bmp')
 r.light = Light(V3(-20, 20, 20), 2, color(255, 255, 255))
 r.scene = [
     Plane(V3(0, 2.2, -5), 2, 2, mirror),
@@ -216,6 +217,7 @@ r.scene = [
     Sphere(V3(0, 0, -5), 0.5, glass),
     Sphere(V3(1, 1, -8), 1.7, rubber),
     Sphere(V3(-2, 1, -10), 2, mirror)
+    #Cubo(V3(3, 2, -10), 1.5, mirror),
 ]
 
 r.render()
