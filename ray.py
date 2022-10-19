@@ -200,7 +200,7 @@ class Raytracer (object):
         else:
             return self.colorD
 
-r = Raytracer(800, 600)
+r = Raytracer(950, 450)
 
 '''
 r.light = Light(V3(0, 0, 0), 1.5, color(255, 255, 255))
@@ -209,15 +209,15 @@ r.scene = [
     Sphere(V3(1, 0, -10), 2.5, ivory)
 ]
 '''
-r.envmap = Envmap('parque.bmp')
+r.envmap = Envmap('fondo.bmp')
 r.light = Light(V3(-20, 20, 20), 2, color(255, 255, 255))
 r.scene = [
-    Plane(V3(0, 2.2, -5), 2, 2, mirror),
-    Sphere(V3(0, -1.5, -10), 1.5, ivory),
-    Sphere(V3(0, 0, -5), 0.5, glass),
-    Sphere(V3(1, 1, -8), 1.7, rubber),
-    Sphere(V3(-2, 1, -10), 2, mirror)
-    #Cubo(V3(3, 2, -10), 1.5, mirror),
+    #Plane(V3(0, 2.2, -5), 2, 2, mirror),
+    #Sphere(V3(0, -1.5, -10), 1.5, ivory),
+    #Sphere(V3(0, 0, -5), 0.5, glass),
+    #Sphere(V3(1, 1, -8), 1.7, rubber),
+    Sphere(V3(2, 1, -10), 1, mirror),
+    Cubo(V3(-2, 2, -10), 1.5, mirror),
 ]
 
 r.render()
