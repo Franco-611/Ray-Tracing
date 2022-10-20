@@ -109,6 +109,9 @@ class Raytracer (object):
         if material is None:
             return self.get_background(direction)
 
+        if material.textura:
+            material.diffuse = material.textura.get_color(*intersect.porcentaje)
+
         light_dir = (self.light.position - intersect.point).norm()
         
 
@@ -210,14 +213,15 @@ r.scene = [
 ]
 '''
 r.envmap = Envmap('fondo.bmp')
-r.light = Light(V3(-20, 20, 20), 2, color(255, 255, 255))
+r.light = Light(V3(-10, 0, 20), 2, color(255, 255, 255))
 r.scene = [
-    #Plane(V3(0, 2.2, -5), 2, 2, mirror),
-    #Sphere(V3(0, -1.5, -10), 1.5, ivory),
-    #Sphere(V3(0, 0, -5), 0.5, glass),
-    #Sphere(V3(1, 1, -8), 1.7, rubber),
-    Sphere(V3(2, 1, -10), 1, mirror),
-    Cubo(V3(-2, 2, -10), 1.5, mirror),
+
+    Cubo(V3(8, 4.6, -20), 1.3, arbol),
+    Cubo(V3(8, 3.3, -20), 1.3, arbol),
+    Cubo(V3(8, 2, -20), 1.3, arbol),
+    Plane(V3(0, 2.2, -5), 2, 2, mirror),
+
+    
 ]
 
 r.render()

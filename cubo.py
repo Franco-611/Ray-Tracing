@@ -12,6 +12,7 @@ class Cubo(object):
 
             min = V3((self.center.x - self.w/2), (self.center.y - self.w/2), (self.center.z - self.w/2))
             max = V3((self.center.x + self.w/2), (self.center.y + self.w/2), (self.center.z + self.w/2))
+            porcent = (0,0)
             
             tmin = ((self.center.x - self.w/2) - origin.x) / direction.x
             tmax = ((self.center.x + self.w/2) - origin.x) / direction.x
@@ -56,21 +57,27 @@ class Cubo(object):
 
             if impact.x >= min.x and impact.y >= min.y and impact.z == min.z:
                 normal = V3(0, 0, -1)
+                porcent = ((impact.x - min.x) / self.w, (impact.y - min.y) / self.w)
             
             elif impact.x >= min.x and impact.y >= min.y and impact.z == max.z:
                 normal = V3(0, 0, 1)
+                porcent = ((impact.x - min.x) / self.w, (impact.y - min.y) / self.w)
 
             elif impact.x >= min.x and impact.y == min.y and impact.z >= min.z:
                 normal = V3(0, -1, 0)
+                porcent = ((impact.x - min.x) / self.w, (impact.z - min.z) / self.w)
 
             elif impact.x >= min.x and impact.y == max.y and impact.z >= min.z:
                 normal = V3(0, 1, 0)
+                porcent = ((impact.x - min.x) / self.w, (impact.z - min.z) / self.w)
             
             elif impact.x == min.x and impact.y >= min.y and impact.z >= min.z:
                 normal = V3(-1, 0, 0)
+                porcent = ((impact.z - min.z) / self.w, (impact.y - min.y) / self.w)
             
             elif impact.x == max.x and impact.y >= min.y and impact.z >= min.z:
                 normal = V3(1, 0, 0)
+                porcent = ((impact.z - min.z) / self.w, (impact.y - min.y) / self.w)
 
             if normal == V3(0, 0, 0):
                 return False
@@ -81,5 +88,6 @@ class Cubo(object):
             return Intersect(
                 distance = tmin,
                 point = impact,
-                normal = normal
+                normal = normal,
+                porcentaje = porcent
             )
