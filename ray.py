@@ -1,7 +1,7 @@
 from WriteUtilities import *
 from math import *
 from color import *
-from cubo import Cubo
+from cubo import *
 from vector import *
 from sphere import *
 from material import *
@@ -202,27 +202,3 @@ class Raytracer (object):
             return self.envmap.get_color(direction)
         else:
             return self.colorD
-
-r = Raytracer(950, 450)
-
-'''
-r.light = Light(V3(0, 0, 0), 1.5, color(255, 255, 255))
-r.scene = [
-    Sphere(V3(-6, 0, -16), 2.5, mirror),
-    Sphere(V3(1, 0, -10), 2.5, ivory)
-]
-'''
-r.envmap = Envmap('fondo.bmp')
-r.light = Light(V3(-10, 0, 20), 2, color(255, 255, 255))
-r.scene = [
-
-    Cubo(V3(8, 4.6, -20), 1.3, tierra),
-    Cubo(V3(8, 3.3, -20), 1.3, arbol),
-    Cubo(V3(8, 2, -20), 1.3, arbol),
-    Plane(V3(0, 2.2, -5), 2, 2, mirror),
-
-    
-]
-
-r.render()
-r.write('render.bmp')
