@@ -10,3 +10,4 @@ grass = Material(diffuse=color(0, 80, 0), albedo=[0.9, 0.1,0.2,0.7], spec=90, re
 madera = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1,0,0], spec=10, texture= Textures('madera.bmp'))
 hojas = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1,0,0], spec=10, texture= Textures('hojas.bmp'))
 arbol = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1,0,0], spec=10, texture= Textures('tronco.bmp'))
+tierra = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1,0,0], spec=10, texture= Textures('tierra.bmp'))

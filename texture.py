@@ -32,7 +32,7 @@ class Textures:
         x = round(tx * (self.width-1))
         y = round(ty * (self.height-1))
 
-        return self.pixels[y][x]
+        return self.pixels[-y][x]
 
     def get_color_with_intensity(self, tx, ty, intensity):
         x = round(tx * self.width)
