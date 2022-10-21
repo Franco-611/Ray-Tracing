@@ -6,6 +6,41 @@ r.envmap = Envmap('fondo.bmp')
 r.light = Light(V3(0, 0, 20), 2, color(255, 255, 255))
 r.scene = [
     
+    #///////////////ARBOLcasa/////////////////
+    #tronco
+    Cubo(V3(15, 2, -15), 1, tronco),
+    Cubo(V3(15, 1, -15), 1, tronco),
+    Cubo(V3(15, 0, -15), 1, tronco),
+    Cubo(V3(15, -1, -15), 1, tronco),
+
+    #fila 0
+    Cubo(V3(14.5, -1.8, -14), 1, hojas),
+    Cubo(V3(15.5, -1.8, -14), 1, hojas),
+    Cubo(V3(16.5, -1.8, -14), 1, hojas),
+    Cubo(V3(13.5, -1.8, -14), 1, hojas),
+
+    Cubo(V3(13.5, -1.8, -15), 1, hojas),
+    Cubo(V3(13.5, -1.8, -16), 1, hojas),
+
+    Cubo(V3(16.5, -1.8, -15), 1, hojas),
+    Cubo(V3(16.5, -1.8, -16), 1, hojas),
+
+    Cubo(V3(14.5, -1.8, -16), 1, hojas),
+    Cubo(V3(15.5, -1.8, -16), 1, hojas),
+    Cubo(V3(16.5, -1.8, -16), 1, hojas),
+    Cubo(V3(13.5, -1.8, -16), 1, hojas),
+
+    #fila1 
+    Cubo(V3(14, -2.8, -14.5), 1, hojas),
+    Cubo(V3(15, -2.8, -14.5), 1, hojas),
+    Cubo(V3(16, -2.8, -14.5), 1, hojas),
+
+    Cubo(V3(14, -2.8, -15.5), 1, hojas),
+
+    #fila0
+    Cubo(V3(15.25, -3.8, -15.5), 1, hojas),
+
+
     #///////////////ARBOLA/////////////////
     #tronco
     Cubo(V3(-10, 2, -15), 1, tronco),
@@ -41,7 +76,7 @@ r.scene = [
     Cubo(V3(-10.25, -3.8, -15.5), 1, hojas),
 
 
-    #///////////////ARBOLD/////////////////
+    #///////////////ARBOLI/////////////////
     #tronco
     Cubo(V3(-10, 2, -10), 1, tronco),
     Cubo(V3(-10, 1, -10), 1, tronco),
@@ -76,7 +111,7 @@ r.scene = [
     Cubo(V3(-10.25, -3.8, -10.5), 1, hojas),
 
 
-    #///////////////ARBOLI/////////////////
+    #///////////////ARBOLD/////////////////
     #tronco
     Cubo(V3(-4, 2, -10), 1, tronco),
     Cubo(V3(-4, 1, -10), 1, tronco),
@@ -110,6 +145,39 @@ r.scene = [
     #fila0
     Cubo(V3(-4.25, -3.8, -10.5), 1, hojas),
 
+    #///////////////ARBOLDA/////////////////
+    #tronco
+    Cubo(V3(-4, 2, -30), 1, tronco),
+    Cubo(V3(-4, 1, -30), 1, tronco),
+    Cubo(V3(-4, 0, -30), 1, tronco),
+    Cubo(V3(-4, -1, -30), 1, tronco),
+
+    #fila 0
+    Cubo(V3(-3.5, -1.8, -29), 1, hojas),
+    Cubo(V3(-4.5, -1.8, -29), 1, hojas),
+    Cubo(V3(-5.5, -1.8, -29), 1, hojas),
+    Cubo(V3(-2.5, -1.8, -29), 1, hojas),
+
+    Cubo(V3(-2.5, -1.8, -30), 1, hojas),
+    Cubo(V3(-2.5, -1.8, -31), 1, hojas),
+
+    Cubo(V3(-5.5, -1.8, -30), 1, hojas),
+    Cubo(V3(-5.5, -1.8, -31), 1, hojas),
+
+    Cubo(V3(-3.5, -1.8, -31), 1, hojas),
+    Cubo(V3(-4.5, -1.8, -31), 1, hojas),
+    Cubo(V3(-5.5, -1.8, -31), 1, hojas),
+    Cubo(V3(-2.5, -1.8, -31), 1, hojas),
+
+    #fila1 
+    Cubo(V3(-3, -2.8, -29.5), 1, hojas),
+    Cubo(V3(-4, -2.8, -29.5), 1, hojas),
+    Cubo(V3(-5, -2.8, -29.5), 1, hojas),
+
+    Cubo(V3(-3, -2.8, -30.5), 1, hojas),
+
+    #fila0
+    Cubo(V3(-4.25, -3.8, -20.5), 1, hojas),
 
     #Charco de agua
     Plane(V3(-7, 2.4, -12), 3, 8, agua),
