@@ -82,7 +82,7 @@ class Raytracer (object):
         self.colorD = color(r, g, b).to_bytes()
 
     def render (self):
-        fov = int(pi/2)
+        fov = int(pi/1.7)
         ar = self.width / self.height
         tana = tan(fov/2)
 

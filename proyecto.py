@@ -5,6 +5,14 @@ r = Raytracer(950, 450)
 r.envmap = Envmap('fondo.bmp')
 r.light = Light(V3(0, 0, 20), 2, color(255, 255, 255))
 r.scene = [
+
+    
+    #Charcos de agua
+    Plane(V3(-7, 2.4, -12), 3, 8, agua),
+    Plane(V3(10, 2.8, -12), 8, 3, agua),
+    Plane(V3(-7, 5, -12), 7, 3, agua),
+    Plane(V3(0, 2.4, -12), 4, 5, agua),
+    Plane(V3(3, 4.5, -12), 2, 5, agua),
     
     #///////////////ARBOLcasa/////////////////
     #tronco
@@ -135,6 +143,11 @@ r.scene = [
     Cubo(V3(-5.5, -1.8, -11), 1, hojas),
     Cubo(V3(-2.5, -1.8, -11), 1, hojas),
 
+    Sphere(V3(-1,-1,-3), 0.03, manzana),
+    Sphere(V3(-1.5,-1,-3), 0.03, manzana),
+    Sphere(V3(-1.2,-0.6,-3), 0.03, manzana),
+    Sphere(V3(-1.7,-0.6,-3), 0.03, manzana),
+
     #fila1 
     Cubo(V3(-3, -2.8, -9.5), 1, hojas),
     Cubo(V3(-4, -2.8, -9.5), 1, hojas),
@@ -179,11 +192,6 @@ r.scene = [
     #fila0
     Cubo(V3(-4.25, -3.8, -20.5), 1, hojas),
 
-    #Charco de agua
-    Plane(V3(-7, 2.4, -12), 3, 8, agua),
-    
-
-    #Sphere(V3(0, 0, -9), 1, espejo),
 
     #///////////////CASA/////////////////
     #Columna izquierda
